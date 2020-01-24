@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
 	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go/service/ecr"
 )
 
 var initErr error
@@ -46,11 +47,6 @@ func (cl *Client) AWSContext() *AWSContext {
 
 // AddConfig changes the underlying session with new Config options.
 func (cl *Client) AddConfig(options ConfigOptions) {
-	/*
-		cl.session = cl.session.Copy(&aws.Config{
-			Region: options.ConfigRegion(),
-		})
-	*/
 	cl.session = cl.session.Copy(options.GetDefaults())
 }
 
@@ -73,6 +69,14 @@ func (cl *Client) CW() *cloudwatch.CloudWatch {
 		cl.InitSVC(SvcTypeCloudWatch)
 	}
 	return cl.svc.cwSvc
+}
+
+// ECR returns the ECR instance of the Client.
+func (cl *Client) ECR() *ecr.ECR {
+	if cl.svc.ec2Svc == nil {
+		cl.InitSVC(SvcTypeECR)
+	}
+	return cl.svc.ecrSvc
 }
 
 // InitSVC inits the corresponding Service for the Client.
