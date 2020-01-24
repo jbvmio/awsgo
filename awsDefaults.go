@@ -4,7 +4,7 @@ import "github.com/aws/aws-sdk-go/aws"
 
 // ConfigOptions contains the options that deliver configuration details.
 type ConfigOptions interface {
-	GetDefaults() *aws.Config
+	GetDefaults(ServiceType) *aws.Config
 }
 
 // GetDefault returns the default value for the given key (TODO).
