@@ -86,5 +86,7 @@ func (cl *Client) InitSVC(service ServiceType) {
 		cl.svc.ec2Svc = ec2.New(cl.session)
 	case SvcTypeCloudWatch:
 		cl.svc.cwSvc = cloudwatch.New(cl.session)
+	case SvcTypeECR:
+		cl.svc.ecrSvc = ecr.New(cl.session)
 	}
 }
