@@ -46,8 +46,8 @@ func (cl *Client) AWSContext() *AWSContext {
 }
 
 // AddConfig changes the underlying session with new Config options.
-func (cl *Client) AddConfig(options ConfigOptions) {
-	cl.session = cl.session.Copy(options.GetDefaults())
+func (cl *Client) AddConfig(svcType ServiceType, options ConfigOptions) {
+	cl.session = cl.session.Copy(options.GetDefaults(svcType))
 }
 
 // DryRunMode sets the DryRun bool
