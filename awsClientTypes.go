@@ -27,6 +27,7 @@ var svcTypeConfigName = [...]string{
 	"ec2_defaults",
 	"cw_defaults",
 	"ecr_defaults",
+	"ecs_defaults",
 }
 
 // SVC contains available AWS service clients
