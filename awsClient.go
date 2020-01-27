@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ecr"
+	"github.com/aws/aws-sdk-go/service/ecs"
 )
 
 var initErr error
@@ -88,5 +89,7 @@ func (cl *Client) InitSVC(service ServiceType) {
 		cl.svc.cwSvc = cloudwatch.New(cl.session)
 	case SvcTypeECR:
 		cl.svc.ecrSvc = ecr.New(cl.session)
+	case SvcTypeECS:
+		cl.svc.ecsSvc = ecs.New(cl.session)
 	}
 }
