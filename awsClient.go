@@ -5,6 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
+	"github.com/aws/aws-sdk-go/service/cloudwatchlogs"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ecr"
 	"github.com/aws/aws-sdk-go/service/ecs"
@@ -67,9 +68,17 @@ func (cl *Client) EC2() *ec2.EC2 {
 // CW returns the CloudWatch instance of the Client.
 func (cl *Client) CW() *cloudwatch.CloudWatch {
 	if cl.svc.cwSvc == nil {
-		cl.InitSVC(SvcTypeCloudWatch)
+		cl.InitSVC(SvcTypeCW)
 	}
 	return cl.svc.cwSvc
+}
+
+// CWLogs returns the CloudWatchLogs instance of the Client.
+func (cl *Client) CWLogs() *cloudwatchlogs.CloudWatchLogs {
+	if cl.svc.ecsSvc == nil {
+		cl.InitSVC(SvcTypeCWLogs)
+	}
+	return cl.svc.cwlogsSvc
 }
 
 // ECR returns the ECR instance of the Client.
@@ -86,18 +95,4 @@ func (cl *Client) ECS() *ecs.ECS {
 		cl.InitSVC(SvcTypeECS)
 	}
 	return cl.svc.ecsSvc
-}
-
-// InitSVC inits the corresponding Service for the Client.
-func (cl *Client) InitSVC(service ServiceType) {
-	switch service {
-	case SvcTypeEC2:
-		cl.svc.ec2Svc = ec2.New(cl.session)
-	case SvcTypeCloudWatch:
-		cl.svc.cwSvc = cloudwatch.New(cl.session)
-	case SvcTypeECR:
-		cl.svc.ecrSvc = ecr.New(cl.session)
-	case SvcTypeECS:
-		cl.svc.ecsSvc = ecs.New(cl.session)
-	}
 }
