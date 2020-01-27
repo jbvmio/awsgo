@@ -66,7 +66,7 @@ func (cl *Client) EC2() *ec2.EC2 {
 
 // CW returns the CloudWatch instance of the Client.
 func (cl *Client) CW() *cloudwatch.CloudWatch {
-	if cl.svc.ec2Svc == nil {
+	if cl.svc.cwSvc == nil {
 		cl.InitSVC(SvcTypeCloudWatch)
 	}
 	return cl.svc.cwSvc
@@ -74,10 +74,18 @@ func (cl *Client) CW() *cloudwatch.CloudWatch {
 
 // ECR returns the ECR instance of the Client.
 func (cl *Client) ECR() *ecr.ECR {
-	if cl.svc.ec2Svc == nil {
+	if cl.svc.ecrSvc == nil {
 		cl.InitSVC(SvcTypeECR)
 	}
 	return cl.svc.ecrSvc
+}
+
+// ECS returns the ECS instance of the Client.
+func (cl *Client) ECS() *ecs.ECS {
+	if cl.svc.ecsSvc == nil {
+		cl.InitSVC(SvcTypeECS)
+	}
+	return cl.svc.ecsSvc
 }
 
 // InitSVC inits the corresponding Service for the Client.
