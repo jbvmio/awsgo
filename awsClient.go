@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ecr"
 	"github.com/aws/aws-sdk-go/service/ecs"
+	"github.com/aws/aws-sdk-go/service/sts"
 )
 
 var initErr error
@@ -95,4 +96,12 @@ func (cl *Client) ECS() *ecs.ECS {
 		cl.InitSVC(SvcTypeECS)
 	}
 	return cl.svc.ecsSvc
+}
+
+// STS returns the STS instance of the Client.
+func (cl *Client) STS() *sts.STS {
+	if cl.svc.stsSvc == nil {
+		cl.InitSVC(SvcTypeSTS)
+	}
+	return cl.svc.stsSvc
 }

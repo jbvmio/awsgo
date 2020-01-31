@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ecr"
 	"github.com/aws/aws-sdk-go/service/ecs"
+	"github.com/aws/aws-sdk-go/service/sts"
 )
 
 // ServiceType defines a specific AWS Service available for a Client.
@@ -23,6 +24,7 @@ const (
 	SvcTypeCWLogs
 	SvcTypeECR
 	SvcTypeECS
+	SvcTypeSTS
 )
 
 var svcTypeConfigName = [...]string{
@@ -31,6 +33,7 @@ var svcTypeConfigName = [...]string{
 	"cwlogs_defaults",
 	"ecr_defaults",
 	"ecs_defaults",
+	"sts_defaults",
 }
 
 // SVC contains available AWS service clients
@@ -40,6 +43,7 @@ type SVC struct {
 	cwlogsSvc *cloudwatchlogs.CloudWatchLogs
 	ecrSvc    *ecr.ECR
 	ecsSvc    *ecs.ECS
+	stsSvc    *sts.STS
 }
 
 // InitSVC inits the corresponding Service for the Client.
@@ -55,5 +59,7 @@ func (cl *Client) InitSVC(service ServiceType) {
 		cl.svc.ecrSvc = ecr.New(cl.session)
 	case SvcTypeECS:
 		cl.svc.ecsSvc = ecs.New(cl.session)
+	case SvcTypeSTS:
+		cl.svc.stsSvc = sts.New(cl.session)
 	}
 }
