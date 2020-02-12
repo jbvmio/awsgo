@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ecr"
 	"github.com/aws/aws-sdk-go/service/ecs"
+	"github.com/aws/aws-sdk-go/service/kinesis"
 	"github.com/aws/aws-sdk-go/service/sts"
 )
 
@@ -104,4 +105,12 @@ func (cl *Client) STS() *sts.STS {
 		cl.InitSVC(SvcTypeSTS)
 	}
 	return cl.svc.stsSvc
+}
+
+// Kinesis returns the Kinesis instance of the Client.
+func (cl *Client) Kinesis() *kinesis.Kinesis {
+	if cl.svc.kinesisSvc == nil {
+		cl.InitSVC(SvcTypeKinesis)
+	}
+	return cl.svc.kinesisSvc
 }

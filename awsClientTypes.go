@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ecr"
 	"github.com/aws/aws-sdk-go/service/ecs"
+	"github.com/aws/aws-sdk-go/service/kinesis"
 	"github.com/aws/aws-sdk-go/service/sts"
 )
 
@@ -25,6 +26,7 @@ const (
 	SvcTypeECR
 	SvcTypeECS
 	SvcTypeSTS
+	SvcTypeKinesis
 )
 
 var svcTypeConfigName = [...]string{
@@ -34,16 +36,18 @@ var svcTypeConfigName = [...]string{
 	"ecr_defaults",
 	"ecs_defaults",
 	"sts_defaults",
+	"kinesis_defaults",
 }
 
 // SVC contains available AWS service clients
 type SVC struct {
-	ec2Svc    *ec2.EC2
-	cwSvc     *cloudwatch.CloudWatch
-	cwlogsSvc *cloudwatchlogs.CloudWatchLogs
-	ecrSvc    *ecr.ECR
-	ecsSvc    *ecs.ECS
-	stsSvc    *sts.STS
+	ec2Svc     *ec2.EC2
+	cwSvc      *cloudwatch.CloudWatch
+	cwlogsSvc  *cloudwatchlogs.CloudWatchLogs
+	ecrSvc     *ecr.ECR
+	ecsSvc     *ecs.ECS
+	stsSvc     *sts.STS
+	kinesisSvc *kinesis.Kinesis
 }
 
 // InitSVC inits the corresponding Service for the Client.
@@ -61,5 +65,7 @@ func (cl *Client) InitSVC(service ServiceType) {
 		cl.svc.ecsSvc = ecs.New(cl.session)
 	case SvcTypeSTS:
 		cl.svc.stsSvc = sts.New(cl.session)
+	case SvcTypeKinesis:
+		cl.svc.kinesisSvc = kinesis.New(cl.session)
 	}
 }
