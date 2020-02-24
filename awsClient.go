@@ -49,6 +49,11 @@ func (cl *Client) AWSContext() *AWSContext {
 	return cl.awsContext
 }
 
+// Session returns the base underlying session.
+func (cl *Client) Session() *session.Session {
+	return cl.session
+}
+
 // AddConfig changes the underlying session with new Config options.
 func (cl *Client) AddConfig(svcType ServiceType, options ConfigOptions) {
 	cl.session = cl.session.Copy(options.GetDefaults(svcType))
